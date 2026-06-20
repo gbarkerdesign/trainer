@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)file:///Users/garethbarker/Downloads/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#15110E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Soviet Wrestling">
+<title>Soviet Wrestling Programme</title>
+<style>
+:root{
+  --ink:#15110E; --card:#201A16; --card2:#2A231D; --bone:#ECE6DB; --muted:#9A9189;
+  --line:#3A322B; --oxblood:#8E1B14; --red:#C8331F; --brass:#C8A24B; --ink2:#0F0C0A;
+  --cond:#3E6E8E;
+  --display:'Arial Narrow','Roboto Condensed','Oswald Sans',system-ui,sans-serif;
+  --body:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--ink2);color:var(--bone);font-family:var(--body)}
+body{min-height:100vh}
+button,input,select,textarea{font-family:inherit;color:inherit}
+input,textarea{font-size:16px} /* prevents iOS zoom on focus */
+a{color:var(--brass)}
+
+.shell{max-width:540px;margin:0 auto;background:var(--ink);min-height:100vh;
+  padding-bottom:calc(78px + env(safe-area-inset-bottom));position:relative;overflow:hidden}
+
+/* ---- top bar ---- */
+.topbar{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,var(--oxblood),#751510);
+  color:var(--bone);padding:calc(10px + env(safe-area-inset-top)) 16px 12px;
+  display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--ink2)}
+.brand{display:flex;flex-direction:column;line-height:1}
+.brand b{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:18px}
+.brand span{font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;opacity:.85;margin-top:4px}
+.star{font-family:var(--display);font-size:30px;font-weight:800;opacity:.9}
+
+/* ---- week strip ---- */
+.weekstrip{display:flex;align-items:center;justify-content:space-between;gap:8px;
+  background:var(--card);border-bottom:1px solid var(--line);padding:10px 12px}
+.weekstrip .wbtn{width:42px;height:42px;border:1px solid var(--line);background:var(--card2);
+  color:var(--bone);border-radius:10px;font-size:20px;font-weight:700;display:grid;place-items:center}
+.weekstrip .wbtn:active{background:var(--oxblood)}
+.weekstrip .wmid{text-align:center;flex:1}
+.weekstrip .wmid b{font-family:var(--display);text-transform:uppercase;letter-spacing:.05em;font-size:20px;font-weight:800;display:block}
+.weekstrip .wmid span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--brass)}
+
+/* ---- screens ---- */
+.screen{padding:16px 14px 8px;animation:fade .18s ease}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:2px 0 10px}
+h2.sect{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;font-weight:800;
+  font-size:22px;margin:22px 0 10px;display:flex;align-items:center;gap:10px}
+h2.sect::before{content:"";width:14px;height:14px;background:var(--red);transform:rotate(45deg);flex:none}
+
+/* ---- cards ---- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:12px}
+.card.flat{background:var(--card2)}
+.row{display:flex;align-items:center;gap:12px}
+.between{justify-content:space-between}
+.muted{color:var(--muted)}
+.tiny{font-size:11.5px}
+.pill{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border-radius:999px;
+  border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.pill.hard{color:#F0B6AC;border-color:#7a2a22;background:#2a1714}
+.pill.mod{color:#E4CF9A;border-color:#5f4f29;background:#241f12}
+.pill.lift{color:#F2D9B0;border-color:var(--brass);background:#231b10}
+.pill.sauna{color:#bcd6e8;border-color:#2f4a5c;background:#13202a}
+
+/* ---- today day cards ---- */
+.daycard{display:flex;gap:12px;align-items:stretch;margin-bottom:10px}
+.daytime{font-family:var(--display);font-weight:800;font-size:20px;width:58px;flex:none;
+  text-align:right;color:var(--brass);padding-top:2px}
+.daybody{flex:1;border-left:2px solid var(--line);padding-left:12px}
+.daybody b{font-size:15px}
+.cta{display:block;width:100%;margin-top:10px;padding:15px;border:none;border-radius:12px;
+  background:var(--red);color:#fff;font-family:var(--display);font-weight:800;font-size:18px;
+  text-transform:uppercase;letter-spacing:.06em}
+.cta:active{background:var(--oxblood)}
+.cta.ghost{background:transparent;border:1px solid var(--line);color:var(--bone)}
+.cta.done{background:#23351f;color:#bfe0b2;border:1px solid #3a5a32}
+
+/* ---- exercise (session) cards ---- */
+.exhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.exorder{font-family:var(--display);font-weight:800;font-size:13px;color:#fff;background:var(--oxblood);
+  width:26px;height:26px;border-radius:7px;display:grid;place-items:center;flex:none;letter-spacing:0}
+.exname{font-weight:700;font-size:16px;line-height:1.15}
+.hero{display:flex;align-items:baseline;gap:10px;margin:8px 0 4px;flex-wrap:wrap}
+.kg{font-family:var(--display);font-weight:800;font-size:40px;line-height:.9;color:var(--bone);
+  font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.kg small{font-size:18px;color:var(--muted);font-weight:700;margin-left:2px}
+.scheme{font-family:var(--display);font-weight:800;font-size:26px;color:var(--bone);text-transform:none}
+.metaline{font-size:12.5px;color:var(--muted);margin-bottom:2px}
+.metaline b{color:var(--brass);font-weight:700}
+.notes{font-size:12.5px;color:#c9c1b7;margin-top:6px;line-height:1.4}
+
+.logrow{display:flex;gap:8px;margin-top:12px;align-items:stretch}
+.field{flex:1;display:flex;flex-direction:column;gap:4px}
+.field label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.field input{background:var(--ink2);border:1px solid var(--line);border-radius:10px;padding:11px 10px;
+  font-size:16px;color:var(--bone);width:100%;font-variant-numeric:tabular-nums}
+.field input:focus{outline:none;border-color:var(--brass)}
+.donebtn{flex:none;width:64px;border:1px solid var(--line);border-radius:10px;background:var(--card2);
+  color:var(--muted);display:grid;place-items:center;font-size:24px;align-self:stretch}
+.donebtn.on{background:var(--brass);border-color:var(--brass);color:#241a08}
+
+.exdone{border-color:var(--brass)}
+.exdone .kg,.exdone .scheme{color:var(--brass)}
+
+/* progress bar in session header */
+.sesshead{position:sticky;top:0;z-index:10;background:var(--ink);padding:14px 14px 10px;border-bottom:1px solid var(--line)}
+.pbar{height:8px;background:var(--card2);border-radius:999px;overflow:hidden;margin-top:8px}
+.pbar > i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--brass));width:0;transition:width .25s}
+.back{background:none;border:none;color:var(--muted);font-size:14px;padding:4px 0;display:inline-flex;gap:6px;align-items:center}
+
+/* ---- weights / inputs ---- */
+.inputgrid{display:flex;gap:10px}
+.bigfield{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 10px 12px;text-align:center}
+.bigfield label{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.bigfield input{width:100%;background:transparent;border:none;text-align:center;font-family:var(--display);
+  font-weight:800;font-size:30px;color:var(--brass);font-variant-numeric:tabular-nums}
+.bigfield input:focus{outline:none}
+.bigfield .unit{font-size:11px;color:var(--muted)}
+
+.wtable{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.wtable th,.wtable td{border-bottom:1px solid var(--line);padding:11px 8px;text-align:center;font-size:14px}
+.wtable th{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.wtable td.lift{text-align:left;font-weight:700}
+.wtable .kgcell{font-family:var(--display);font-weight:800;font-size:17px;color:var(--bone)}
+.wtable .pc{display:block;font-size:10px;color:var(--muted);letter-spacing:.08em}
+.wtable tr.phase-now td{background:#251c12}
+
+/* ---- progress grid ---- */
+.bigstat{display:flex;gap:12px;margin-bottom:6px}
+.bigstat .b{flex:1;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}
+.bigstat .n{font-family:var(--display);font-weight:800;font-size:34px;color:var(--brass);line-height:1}
+.bigstat .l{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+.pgrid{width:100%;border-collapse:collapse}
+.pgrid th,.pgrid td{padding:7px 4px;text-align:center;font-size:12px;border-bottom:1px solid var(--line)}
+.pgrid th{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pgrid td.wk{font-weight:700;color:var(--muted);text-align:left;font-size:11px}
+.dot{width:22px;height:22px;border-radius:6px;display:inline-grid;place-items:center;margin:0 auto;
+  border:1px solid var(--line);background:var(--card2);font-size:11px}
+.dot.full{background:var(--brass);border-color:var(--brass);color:#241a08;font-weight:800}
+.dot.part{background:#3a2c14;border-color:var(--brass);color:var(--brass)}
+.dot.now{box-shadow:0 0 0 2px var(--red)}
+
+.kvr{display:flex;justify-content:space-between;gap:12px;padding:11px 2px;border-bottom:1px solid var(--line);align-items:center}
+.kvr:last-child{border-bottom:none}
+.kvr b{font-weight:700}
+.kvr input{width:96px;background:var(--ink2);border:1px solid var(--line);border-radius:9px;padding:9px;
+  font-size:15px;color:var(--brass);text-align:right;font-variant-numeric:tabular-nums}
+.kvr input:focus{outline:none;border-color:var(--brass)}
+
+.btnrow{display:flex;gap:10px;flex-wrap:wrap}
+.btn{flex:1;min-width:120px;padding:13px;border:1px solid var(--line);border-radius:11px;background:var(--card2);
+  color:var(--bone);font-weight:700;font-size:14px}
+.btn:active{background:var(--oxblood)}
+.btn.danger{color:#f0b6ac;border-color:#7a2a22}
+textarea.imp{width:100%;min-height:84px;background:var(--ink2);border:1px solid var(--line);border-radius:11px;
+  color:var(--bone);padding:10px;font-size:13px;margin-top:8px}
+
+.note{background:#241f12;border:1px solid #5f4f29;border-radius:11px;padding:11px 12px;font-size:12.5px;color:#e4cf9a;margin:6px 0 14px}
+
+/* ---- bottom nav ---- */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;
+  background:var(--card);border-top:1px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom);max-width:540px;margin:0 auto}
+.nav button{flex:1;background:none;border:none;color:var(--muted);padding:9px 2px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;letter-spacing:.04em}
+.nav button .ic{font-size:19px;line-height:1}
+.nav button.on{color:var(--brass)}
+.nav button.on .ic{filter:drop-shadow(0 0 6px rgba(200,162,75,.4))}
+
+.banner{background:#2a1714;color:#f0b6ac;border-bottom:1px solid #7a2a22;font-size:12px;padding:8px 14px;text-align:center}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div id="storeBanner"></div>
+  <div class="topbar">
+    <div class="brand"><b>Soviet Wrestling</b><span>Strength &amp; Conditioning</span></div>
+    <div class="star">★</div>
+  </div>
+  <div class="weekstrip">
+    <button class="wbtn" id="wprev" aria-label="Previous week">‹</button>
+    <div class="wmid"><b id="wlabel">Week 1</b><span id="plabel">Phase 1  ·  22 Jun–28 Jun</span></div>
+    <button class="wbtn" id="wnext" aria-label="Next week">›</button>
+  </div>
+  <div id="app"><div class="screen"><div class="eyebrow">Week 1 · 22 Jun–28 Jun</div><div class="card" style="">
+      <div class="row between"><b style="font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:.04em">Monday</b>
+      </div>
+      <div class="tiny muted" style="margin-top:2px">22 Jun</div><div class="daycard" style="margin-top:8px"><div class="daytime">20:00</div>
+      <div class="daybody"><div class="row between"><b>RGJJ Self Defence</b><span class="pill mod">Moderate</span></div><div class="tiny muted">60 min</div></div></div></div><div class="card" style="">
+      <div class="row between"><b style="font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:.04em">Tuesday</b>
+      </div>
+      <div class="tiny muted" style="margin-top:2px">23 Jun</div><div class="daycard" style="margin-top:10px"><div class="daytime">08:00</div>
+        <div class="daybody"><div class="row between"><b>Maximum Strength</b><span class="pill lift">Lift</span></div>
+        <div class="tiny muted">Gym · 0/6 done</div>
+        <button class="cta " style="margin-top:8px;padding:11px;font-size:15px" data-open="maxStrength" data-dk="tue">Open session</button>
+        </div></div><div class="daycard" style="margin-top:8px"><div class="daytime">18:00</div>
+      <div class="daybody"><div class="row between"><b>Wrestling &amp; MMA</b><span class="pill hard">Hard</span></div><div class="tiny muted">120 min</div></div></div></div><div class="card" style="">
+      <div class="row between"><b style="font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:.04em">Wednesday</b>
+      <span class="pill sauna">Sauna</span></div>
+      <div class="tiny muted" style="margin-top:2px">24 Jun</div><div class="daycard" style="margin-top:8px"><div class="daytime">20:00</div>
+      <div class="daybody"><div class="row between"><b>RGJJ Self Defence</b><span class="pill mod">Moderate</span></div><div class="tiny muted">60 min</div></div></div></div><div class="card" style="">
+      <div class="row between"><b style="font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:.04em">Thursday</b>
+      </div>
+      <div class="tiny muted" style="margin-top:2px">25 Jun</div><div class="daycard" style="margin-top:10px"><div class="daytime">11:00</div>
+        <div class="daybody"><div class="row between"><b>Speed &amp; Explosive Power</b><span class="pill lift">Lift</span></div>
+        <div class="tiny muted">Gym · 0/6 done</div>
+        <button class="cta " style="margin-top:8px;padding:11px;font-size:15px" data-open="speed" data-dk="thu">Open session</button>
+        </div></div><div class="daycard" style="margin-top:8px"><div class="daytime">18:00</div>
+      <div class="daybody"><div class="row between"><b>Wrestling</b><span class="pill hard">Hard</span></div><div class="tiny muted">120 min</div></div></div></div><div class="card" style="">
+      <div class="row between"><b style="font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:.04em">Friday</b>
+      </div>
+      <div class="tiny muted" style="margin-top:2px">26 Jun</div><div class="daycard" style="margin-top:8px"><div class="daytime">18:00</div>
+      <div class="daybody"><div class="row between"><b>MMA</b><span class="pill hard">Hard</span></div><div class="tiny muted">90 min</div></div></div></div><div class="card" style="">
+      <div class="row between"><b style="font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:.04em">Saturday</b>
+      <span class="pill sauna">Sauna</span></div>
+      <div class="tiny muted" style="margin-top:2px">27 Jun</div><div class="daycard" style="margin-top:10px"><div class="daytime">10:00</div>
+        <div class="daybody"><div class="row between"><b>Wrestling Work Capacity</b><span class="pill lift">Lift</span></div>
+        <div class="tiny muted">Gym · 0/6 done</div>
+        <button class="cta " style="margin-top:8px;padding:11px;font-size:15px" data-open="workCap" data-dk="sat">Open session</button>
+        </div></div></div><div class="card" style="">
+      <div class="row between"><b style="font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:.04em">Sunday</b>
+      <span class="pill sauna">Sauna</span></div>
+      <div class="tiny muted" style="margin-top:2px">28 Jun</div><div class="tiny muted" style="margin-top:8px">Rest &amp; recovery</div></div></div></div>
+  <nav class="nav" id="nav"><button class="" data-tab="today">
+       <span class="ic">◧</span>Today</button><button class="on" data-tab="week">
+       <span class="ic">▦</span>Week</button><button class="" data-tab="weights">
+       <span class="ic">◆</span>Weights</button><button class="" data-tab="progress">
+       <span class="ic">◔</span>Progress</button><button class="" data-tab="more">
+       <span class="ic">≡</span>More</button></nav>
+</div>
+
+<script>
+/* ================= storage (safe everywhere) ================= */
+const store=(()=>{
+  let ok=false; try{localStorage.setItem('__t','1');localStorage.removeItem('__t');ok=true;}catch(e){ok=false;}
+  const mem={};
+  return {ok,
+    get(k){try{return ok?localStorage.getItem(k):mem[k]??null;}catch(e){return mem[k]??null;}},
+    set(k,v){try{ok?localStorage.setItem(k,v):mem[k]=v;}catch(e){mem[k]=v;}}};
+})();
+if(!store.ok){
+  document.getElementById('storeBanner').className='banner';
+  document.getElementById('storeBanner').textContent='Preview mode — open the downloaded file on your phone to save progress.';
+}
+
+/* ================= state ================= */
+const KEY='swp.v1';
+const DEFAULTS={oneRM:{bsq:150,fsq:110,dl:190},week:1,log:{},targets:{},startISO:'2026-06-22'};
+const clone=o=>JSON.parse(JSON.stringify(o));
+let state=load()||clone(DEFAULTS);
+function load(){try{const s=store.get(KEY);return s?JSON.parse(s):null;}catch(e){return null;}}
+function save(){store.set(KEY,JSON.stringify(state));}
+if(!state.startISO)state.startISO=DEFAULTS.startISO;
+
+/* ================= calendar ================= */
+const MON_ABBR=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function startMonday(){const [y,m,d]=state.startISO.split('-').map(Number);return new Date(y,m-1,d);}
+function todayLocal(){const n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate());}
+function daysBetween(a,b){return Math.round((b-a)/86400000);}
+function weekMonday(week){const s=startMonday();return new Date(s.getFullYear(),s.getMonth(),s.getDate()+(week-1)*7);}
+function dayDate(week,dayIdx){const m=weekMonday(week);return new Date(m.getFullYear(),m.getMonth(),m.getDate()+dayIdx);}
+function currentWeek(){return Math.max(1,Math.min(12,Math.floor(daysBetween(startMonday(),todayLocal())/7)+1));}
+function beforeStart(){return todayLocal()<startMonday();}
+function afterEnd(){return daysBetween(startMonday(),todayLocal())>83;} // past Sun of week 12
+const fmtD=d=>d.getDate()+' '+MON_ABBR[d.getMonth()];
+const weekRange=week=>fmtD(weekMonday(week))+'–'+fmtD(dayDate(week,6));
+
+/* ================= calc engine (mirrors the spreadsheet) ================= */
+const round25=x=>Math.round(x/2.5)*2.5;
+const fmt=x=>{const v=round25(x);return (Math.round(v*10)/10).toString();};
+function phaseOf(week){return week<=4?1:week<=8?2:week<=11?3:'deload';}
+const PHASE_NAME={1:'Foundation',2:'Strength Development',3:'Peak Strength & Power',deload:'Deload & Testing'};
+
+/* ================= programme data ================= */
+const SESSIONS={
+  maxStrength:{
+    label:'Maximum Strength', time:'08:00',
+    objective:'Build maximal force while strengthening tendons and connective tissue.',
+    warmup:['Rower 5 min easy','Mobility ×2: deep squat hold 30s · world\u2019s-greatest ×5/side · Cossack ×8/side · shoulder & hip circles ×20','Bear crawl 20 m + reverse 20 m'],
+    main:[
+      {o:'A',name:'Back Squat',ref:'bsq',byPhase:{1:{s:'5 × 5',pct:.75},2:{s:'5 × 4',pct:.80},3:{s:'6 × 3',range:[.85,.90]}},rest:'3–4 min',notes:'Full depth · explosive ascent · controlled descent'},
+      {o:'B',name:'Deadlift',ref:'dl',byPhase:{1:{s:'5 × 3',pct:.80},2:{s:'6 × 3',pct:.85},3:{s:'5 × 2',pct:.90}},rest:'3–4 min',notes:'Maximum bar speed · perfect posture'},
+      {o:'C',name:'Bulgarian Split Squat',const:'3 × 8 / leg',rest:'90 sec',notes:'Tempo 3 sec down, explosive up'},
+      {o:'D',name:'Isometric Mid-Thigh Pull',const:'5 × 5-sec max',rest:'60 sec',notes:'Bar fixed on safety pins — tendon stiffness & neural drive'},
+      {o:'E',name:'Heavy Farmer Carry',const:'4 × 40 m',rest:'90 sec',notes:'Bodyweight total or heavier · grip, core, tendons'},
+      {o:'F',name:'Neck Strength Circuit',const:'3 rounds',rest:'30 sec',notes:'Flexion ×20 · Extension ×20 · Lateral ×15/side'}
+    ],
+    finish:['Zone-2 Bike 20 min · HR 120–140 · conversation pace']
+  },
+  speed:{
+    label:'Speed & Explosive Power', time:'11:00',
+    objective:'Increase explosive power and wrestling speed. Loading is constant across all 12 weeks.',
+    warmup:['5 min skipping · dynamic mobility · 3 acceleration runs'],
+    main:[
+      {o:'A',name:'Box Jumps',const:'5 × 3',rest:'90 sec',notes:'Maximum intent · full recovery'},
+      {o:'B',name:'Speed Front Squat',ref:'fsq',byPhase:{1:{s:'8 × 2',pct:.60},2:{s:'8 × 2',pct:.60},3:{s:'8 × 2',pct:.60}},rest:'60 sec',notes:'Every rep explosive'},
+      {o:'C',name:'Romanian Deadlift',const:'4 × 6',rest:'—',notes:'Moderately heavy · 3s down, 1s pause, explosive up'},
+      {o:'D',name:'Push Press',const:'5 × 3',rest:'2 min',notes:'Explosive'},
+      {o:'E',name:'Sled Push',const:'10 × 20 m',rest:'Walk back',notes:'Heavy but continuous · driving pressure'},
+      {o:'F',name:'Tendon Strength Circuit',const:'3 rounds',rest:'60 sec',notes:'Wall sit 60s · split-squat hold 45s/leg · pull-up top hold 30s · dead hang 45s'}
+    ],
+    finish:['Echo-Bike: 10 × (10s sprint / 50s easy) · max effort']
+  },
+  workCap:{
+    label:'Wrestling Work Capacity', time:'10:00',
+    objective:'Develop strength endurance and aerobic capacity.',
+    warmup:['Rowing machine 10 min easy'],
+    main:[
+      {o:'A',name:'Front Squat',byPhase:{1:{s:'4 × 6'},2:{s:'5 × 5'},3:{s:'5 × 4'}},rest:'—',notes:'By feel — build across the block, clean depth'},
+      {o:'B',name:'Deficit Deadlift',const:'4 × 5',rest:'—',notes:'Moderate load · leg drive · explosive start'},
+      {o:'C',name:'Bent-Over Row',const:'5 × 8',rest:'—',notes:'Controlled · heavy'},
+      {o:'D',name:'Sandbag Carry',const:'5 × 40 m',rest:'—',notes:'Bear-hug · challenge posture'},
+      {o:'E',name:'Wrestling Conditioning Circuit',const:'5 rounds',rest:'90 sec',notes:'KB swings ×20 · burpees ×10 · walking lunges ×20 · push-ups ×20'},
+      {o:'F',name:'Grip & Tendon Work',const:'3 rounds',rest:'60 sec',notes:'Towel pull-ups max · plate pinch 45s · wrist roller ×2'}
+    ],
+    finish:['Zone-2 Row 30 min · HR 120–140 · nasal breathing']
+  }
+};
+const DAYS=[
+  {k:'mon',name:'Monday',ma:[{t:'20:00',n:'RGJJ Self Defence',d:'60 min',i:'Moderate'}]},
+  {k:'tue',name:'Tuesday',sid:'maxStrength',ma:[{t:'18:00',n:'Wrestling & MMA',d:'120 min',i:'Hard'}]},
+  {k:'wed',name:'Wednesday',sauna:true,ma:[{t:'20:00',n:'RGJJ Self Defence',d:'60 min',i:'Moderate'}]},
+  {k:'thu',name:'Thursday',sid:'speed',ma:[{t:'18:00',n:'Wrestling',d:'120 min',i:'Hard'}]},
+  {k:'fri',name:'Friday',ma:[{t:'18:00',n:'MMA',d:'90 min',i:'Hard'}]},
+  {k:'sat',name:'Saturday',sid:'workCap',sauna:true,ma:[]},
+  {k:'sun',name:'Sunday',rest:true,sauna:true,ma:[]}
+];
+const dayByKey=k=>DAYS.find(d=>d.k===k);
+const todayKey=()=>['sun','mon','tue','wed','thu','fri','sat'][new Date().getDay()];
+
+const TARGETS=[
+  {k:'bsq',name:'Back Squat',t:'180 kg'},{k:'fsq',name:'Front Squat',t:'140 kg'},
+  {k:'dl',name:'Deadlift',t:'220 kg'},{k:'carry',name:'Farmer Carry',t:'Bodyweight/hand'},
+  {k:'pull',name:'Pull-Ups',t:'15 strict'},{k:'row',name:'2000 m Row',t:'Sub 8 min'},
+  {k:'rhr',name:'Resting HR',t:'Sub 55 bpm'}
+];
+const RECOVERY=[['Sleep','7.5–9 hours'],['Protein','200–220 g daily'],['Water','3–4 L daily'],
+  ['Sauna','Wed · Sat · Sun'],['Creatine','5 g daily'],['Magnesium','Before bed']];
+
+/* ================= load helpers ================= */
+function loadText(item,week){
+  if(item.const) return {scheme:item.const,kg:null,pct:null,deload:false};
+  const ph=phaseOf(week); const p=(ph==='deload')?3:ph; const c=item.byPhase[p];
+  let kg=null,pct=null;
+  if(item.ref && c){
+    const orm=Number(state.oneRM[item.ref])||0;
+    if(c.pct){kg=fmt(orm*c.pct)+' kg';pct=Math.round(c.pct*100)+'%';}
+    else if(c.range){kg=fmt(orm*c.range[0])+'–'+fmt(orm*c.range[1])+' kg';pct=Math.round(c.range[0]*100)+'–'+Math.round(c.range[1]*100)+'%';}
+  }
+  return {scheme:c.s,kg,pct,deload:ph==='deload'};
+}
+const logKey=(week,dk,o)=>`${week}.${dk}.${o}`;
+const getLog=(week,dk,o)=>state.log[logKey(week,dk,o)]||{};
+function setLog(week,dk,o,patch){const k=logKey(week,dk,o);state.log[k]=Object.assign({},state.log[k],patch);save();}
+function sessionDoneCount(week,dk,sid){const s=SESSIONS[sid];let n=0;s.main.forEach(m=>{if(getLog(week,dk,m.o).done)n++;});return n;}
+
+/* ================= router ================= */
+let route={tab:'today',sid:null,dk:null};
+const TABS=[['today','Today','◧'],['week','Week','▦'],['weights','Weights','◆'],['progress','Progress','◔'],['more','More','≡']];
+function go(tab,extra){
+  if(tab==='today')state.week=currentWeek();
+  route=Object.assign({tab,sid:null,dk:null},extra||{});render();window.scrollTo(0,0);}
+
+/* ================= renders ================= */
+const app=()=>document.getElementById('app');
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+function render(){
+  const cw=currentWeek();
+  document.getElementById('wlabel').textContent='Week '+state.week+((state.week===cw&&!beforeStart()&&!afterEnd())?'  ·  now':'');
+  const ph=phaseOf(state.week);
+  document.getElementById('plabel').textContent=(ph==='deload'?'Week 12':'Phase '+ph)+'  ·  '+weekRange(state.week);
+  if(route.tab==='session'){renderSession();}
+  else if(route.tab==='today'){renderToday();}
+  else if(route.tab==='week'){renderWeek();}
+  else if(route.tab==='weights'){renderWeights();}
+  else if(route.tab==='progress'){renderProgress();}
+  else if(route.tab==='more'){renderMore();}
+  renderNav();
+}
+function renderNav(){
+  document.getElementById('nav').innerHTML=TABS.map(([t,l,ic])=>
+    `<button class="${route.tab===t||(route.tab==='session'&&t==='week')?'on':''}" data-tab="${t}">
+       <span class="ic">${ic}</span>${l}</button>`).join('');
+}
+
+function intensityPill(i){const c=i==='Hard'?'hard':i==='Moderate'?'mod':'';return `<span class="pill ${c}">${i}</span>`;}
+
+function renderToday(){
+  if(beforeStart()){
+    const dleft=daysBetween(todayLocal(),startMonday());const first=dayByKey('mon');
+    app().innerHTML=`<div class="screen"><div class="eyebrow">Programme</div>
+      <div class="card"><b style="font-family:var(--display);font-size:23px;text-transform:uppercase;letter-spacing:.03em">Starts Monday ${fmtD(startMonday())}</b>
+      <div class="tiny muted" style="margin-top:6px">${dleft===1?'Tomorrow':'In '+dleft+' days'} · Week 1 · Phase 1 — Foundation</div>
+      <div class="daycard" style="margin-top:14px"><div class="daytime">${first.ma[0].t}</div>
+        <div class="daybody"><div class="row between"><b>${first.ma[0].n}</b>${intensityPill(first.ma[0].i)}</div>
+        <div class="tiny muted">${first.ma[0].d} · your first session</div></div></div>
+      <button class="cta ghost" data-gotoweek="1" style="margin-top:10px">Preview week 1</button></div></div>`;
+    wire();return;
+  }
+  if(afterEnd()){
+    app().innerHTML=`<div class="screen"><div class="eyebrow">Programme</div>
+      <div class="card"><b style="font-family:var(--display);font-size:23px;text-transform:uppercase;letter-spacing:.03em">12 weeks complete</b>
+      <div class="tiny muted" style="margin-top:6px">Test your lifts, update your 1RMs, and run it back.</div>
+      <button class="cta ghost" data-gotoweek="12" style="margin-top:12px">Review week 12</button></div></div>`;
+    wire();return;
+  }
+  const tk=todayKey(),d=dayByKey(tk),di=DAYS.findIndex(x=>x.k===tk);
+  let h=`<div class="screen"><div class="eyebrow">Today · ${d.name} ${fmtD(dayDate(state.week,di))}</div>`;
+  if(d.sid){
+    const s=SESSIONS[d.sid];const done=sessionDoneCount(state.week,tk,d.sid),tot=s.main.length;
+    h+=`<div class="card"><div class="row between">
+        <div><b style="font-size:17px">${s.label}</b><div class="tiny muted">Gym · ${s.time} · ${tot} lifts</div></div>
+        ${intensityPill('Lift')}</div>
+        <button class="cta ${done===tot?'done':''}" data-open="${d.sid}" data-dk="${tk}">${done?`Resume · ${done}/${tot} done`:'Start session'}</button>
+        </div>`;
+  } else if(d.rest){
+    h+=`<div class="card"><b style="font-size:17px">Rest Day</b><div class="tiny muted">Full recovery${d.sauna?' · sauna':''}</div></div>`;
+  }
+  if(d.ma&&d.ma.length){
+    h+=`<h2 class="sect">Mat / Striking</h2>`;
+    d.ma.forEach(m=>h+=`<div class="daycard"><div class="daytime">${m.t}</div>
+      <div class="daybody"><div class="row between"><b>${m.n}</b>${intensityPill(m.i)}</div>
+      <div class="tiny muted">${m.d}</div></div></div>`);
+  }
+  if(d.sauna){h+=`<div class="note">Sauna today — recovery. ★</div>`;}
+  if(!d.sid && !d.rest && !(d.ma&&d.ma.length)){h+=`<div class="card muted">Nothing scheduled.</div>`;}
+  h+=`</div>`;
+  app().innerHTML=h; wire();
+}
+
+function renderWeek(){
+  let h=`<div class="screen"><div class="eyebrow">Week ${state.week} · ${weekRange(state.week)}</div>`;
+  const tk=todayKey();const showToday=(state.week===currentWeek()&&!beforeStart()&&!afterEnd());
+  DAYS.forEach((d,i)=>{
+    const isToday=showToday&&d.k===tk;
+    h+=`<div class="card" style="${isToday?'border-color:var(--red)':''}">
+      <div class="row between"><b style="font-family:var(--display);font-size:18px;text-transform:uppercase;letter-spacing:.04em">${d.name}</b>
+      ${d.sauna?'<span class="pill sauna">Sauna</span>':''}</div>
+      <div class="tiny muted" style="margin-top:2px">${fmtD(dayDate(state.week,i))}${isToday?' · Today':''}</div>`;
+    if(d.sid){const s=SESSIONS[d.sid];const done=sessionDoneCount(state.week,d.k,d.sid),tot=s.main.length;
+      h+=`<div class="daycard" style="margin-top:10px"><div class="daytime">${s.time}</div>
+        <div class="daybody"><div class="row between"><b>${s.label}</b><span class="pill lift">Lift</span></div>
+        <div class="tiny muted">Gym · ${done}/${tot} done</div>
+        <button class="cta ${done===tot?'done':''}" style="margin-top:8px;padding:11px;font-size:15px" data-open="${d.sid}" data-dk="${d.k}">${done?'Resume session':'Open session'}</button>
+        </div></div>`;}
+    if(d.rest){h+=`<div class="tiny muted" style="margin-top:8px">Rest &amp; recovery</div>`;}
+    (d.ma||[]).forEach(m=>h+=`<div class="daycard" style="margin-top:8px"><div class="daytime">${m.t}</div>
+      <div class="daybody"><div class="row between"><b>${m.n}</b>${intensityPill(m.i)}</div><div class="tiny muted">${m.d}</div></div></div>`);
+    h+=`</div>`;
+  });
+  h+=`</div>`; app().innerHTML=h; wire();
+}
+
+function renderSession(){
+  const s=SESSIONS[route.sid],dk=route.dk,week=state.week;
+  const tot=s.main.length;const done=sessionDoneCount(week,dk,route.sid);
+  const pct=Math.round(done/tot*100);
+  let h=`<div class="sesshead">
+    <button class="back" data-back="1">‹ Week ${week}</button>
+    <div class="row between"><div><div style="font-family:var(--display);font-weight:800;font-size:21px;text-transform:uppercase;letter-spacing:.03em">${s.label}</div>
+    <div class="tiny muted">${dayByKey(dk).name} ${fmtD(dayDate(week,DAYS.findIndex(x=>x.k===dk)))} · ${s.time} · ${done}/${tot} done</div></div></div>
+    <div class="pbar"><i style="width:${pct}%"></i></div></div>
+    <div class="screen" style="padding-top:12px">`;
+  if(phaseOf(week)==='deload'){h+=`<div class="note">Week 12 — deload &amp; test. Cut volume right down, work up to heavy singles on the main lifts, then update your 1RMs on the Weights tab.</div>`;}
+  h+=`<div class="card flat"><div class="tiny muted" style="line-height:1.5">${s.objective}</div>
+      <div class="tiny" style="margin-top:8px;color:#c9c1b7"><b style="color:var(--brass)">Warm-up.</b> ${s.warmup.join(' &nbsp;·&nbsp; ')}</div></div>`;
+  s.main.forEach(m=>{
+    const lt=loadText(m,week),lg=getLog(week,dk,m.o),isDone=!!lg.done;
+    h+=`<div class="card ${isDone?'exdone':''}">
+      <div class="exhead"><div class="row" style="gap:10px"><span class="exorder">${m.o}</span><span class="exname">${m.name}</span></div></div>
+      <div class="hero">`;
+    if(lt.kg){h+=`<span class="kg">${lt.kg.replace(' kg','')}<small>kg</small></span>`;}
+    else{h+=`<span class="scheme">${lt.scheme}</span>`;}
+    h+=`</div><div class="metaline">`;
+    if(lt.kg){h+=`${m.const?'':'<b>'+lt.scheme+'</b>'} ${lt.pct?'· '+lt.pct+' of 1RM':''}`;}
+    else if(!m.const){h+=`<b>${lt.scheme}</b> · by feel`;}
+    if(m.rest&&m.rest!=='—'){h+=` &nbsp;·&nbsp; rest ${m.rest}`;}
+    h+=`</div><div class="notes">${m.notes}</div>`;
+    h+=`<div class="logrow">
+        <div class="field"><label>Weight kg</label><input inputmode="decimal" data-log="${m.o}" data-f="weight" value="${lg.weight??''}" placeholder="—"></div>
+        <div class="field"><label>Reps done</label><input data-log="${m.o}" data-f="reps" value="${esc(lg.reps??'')}" placeholder="—"></div>
+        <button class="donebtn ${isDone?'on':''}" data-done="${m.o}" aria-label="Mark done">✓</button>
+      </div></div>`;
+  });
+  h+=`<div class="card flat"><div class="tiny"><b style="color:var(--brass)">Finish.</b> ${s.finish.join(' · ')}</div></div>`;
+  h+=`<button class="cta ghost" data-back="1" style="margin-bottom:18px">Done — back to week</button></div>`;
+  app().innerHTML=h; wire();
+}
+
+function renderWeights(){
+  const r=state.oneRM;
+  let h=`<div class="screen"><div class="eyebrow">Your 1-rep max</div>
+    <div class="inputgrid">
+      ${[['bsq','Back Squat'],['fsq','Front Squat'],['dl','Deadlift']].map(([k,n])=>
+        `<div class="bigfield"><label>${n}</label><input inputmode="decimal" data-orm="${k}" value="${r[k]??''}"><div class="unit">kg</div></div>`).join('')}
+    </div>
+    <div class="note" style="margin-top:12px">Loads everywhere update from these. Rounded to the nearest 2.5 kg.</div>
+    <h2 class="sect">Working weights</h2>
+    <table class="wtable"><thead><tr><th style="text-align:left">Lift</th><th>Wk 1–4</th><th>Wk 5–8</th><th>Wk 9–11</th></tr></thead><tbody>`;
+  const now=phaseOf(state.week);
+  const rows=[
+    ['Back Squat','bsq',[[.75],[.80],[.85,.90]]],
+    ['Deadlift','dl',[[.80],[.85],[.90]]]
+  ];
+  rows.forEach(([name,ref,ph])=>{
+    h+=`<tr><td class="lift">${name}</td>`;
+    ph.forEach((p,i)=>{
+      const orm=Number(state.oneRM[ref])||0;
+      const kg=p.length===2?`${fmt(orm*p[0])}–${fmt(orm*p[1])}`:`${fmt(orm*p[0])}`;
+      const pc=p.length===2?`${Math.round(p[0]*100)}–${Math.round(p[1]*100)}%`:`${Math.round(p[0]*100)}%`;
+      const cls=(now!=='deload'&&now===i+1)?'class="phase-now"':'';
+      h+=`<td ${cls}><span class="kgcell">${kg}</span><span class="pc">${pc}</span></td>`;
+    });
+    h+=`</tr>`;
+  });
+  const fo=Number(state.oneRM.fsq)||0;
+  h+=`<tr><td class="lift">Speed Front Squat</td><td colspan="3"><span class="kgcell">${fmt(fo*.6)} kg</span><span class="pc">60% · 8 × 2 explosive · all weeks</span></td></tr>`;
+  h+=`</tbody></table>
+    <h2 class="sect">Add load when ready</h2>
+    <div class="card flat">
+    ${[['Squat','+2.5–5 kg'],['Deadlift','+2.5–5 kg'],['Front Squat','+2.5 kg'],['Carries','+5 kg'],['Sled','+10 kg']]
+      .map(([a,b])=>`<div class="kvr"><b>${a}</b><span class="muted">${b}</span></div>`).join('')}
+    </div>
+    <div class="tiny muted" style="margin:4px 2px 20px">When every prescribed rep is completed comfortably.</div>
+    </div>`;
+  app().innerHTML=h; wire();
+}
+
+function renderProgress(){
+  // overall sessions complete
+  let full=0,total=12*3;
+  for(let wk=1;wk<=12;wk++){DAYS.filter(d=>d.sid).forEach(d=>{const s=SESSIONS[d.sid];if(sessionDoneCount(wk,d.k,d.sid)===s.main.length)full++;});}
+  const now=todayKey();
+  let h=`<div class="screen"><div class="eyebrow">Progress</div>
+    <div class="bigstat">
+      <div class="b"><div class="n">${full}</div><div class="l">Sessions done</div></div>
+      <div class="b"><div class="n">${Math.round(full/total*100)}<small style="font-size:16px">%</small></div><div class="l">of 36</div></div>
+      <div class="b"><div class="n">${state.week}</div><div class="l">Current week</div></div>
+    </div>
+    <h2 class="sect">Completion grid</h2>
+    <table class="pgrid"><thead><tr><th class="wk">Wk</th><th>Tue</th><th>Thu</th><th>Sat</th></tr></thead><tbody>`;
+  for(let wk=1;wk<=12;wk++){
+    h+=`<tr><td class="wk">${wk}${wk===state.week?' •':''}</td>`;
+    ['maxStrength','speed','workCap'].forEach((sid,ci)=>{
+      const dk=['tue','thu','sat'][ci];const s=SESSIONS[sid];const dn=sessionDoneCount(wk,dk,sid),tt=s.main.length;
+      const cl=dn===tt?'full':dn>0?'part':'';const isNow=(wk===state.week&&dk===now)?' now':'';
+      h+=`<td><span class="dot ${cl}${isNow}" data-jump="${sid}" data-jwk="${wk}" data-jdk="${dk}">${dn===tt?'✓':dn>0?dn:''}</span></td>`;
+    });
+    h+=`</tr>`;
+  }
+  h+=`</tbody></table>
+    <h2 class="sect">Performance targets</h2><div class="card flat">`;
+  TARGETS.forEach(t=>{h+=`<div class="kvr"><div><b>${t.name}</b><div class="tiny muted">Target ${t.t}</div></div>
+    <input inputmode="decimal" data-tgt="${t.k}" value="${esc(state.targets[t.k]??'')}" placeholder="best"></div>`;});
+  h+=`</div><div class="tiny muted" style="margin:4px 2px 20px">Log your current best — saved on this device.</div></div>`;
+  app().innerHTML=h; wire();
+}
+
+function renderMore(){
+  let h=`<div class="screen"><div class="eyebrow">Programme</div>
+    <div class="card"><div class="kvr" style="border:none;padding:4px 2px">
+      <div><b>Start date</b><div class="tiny muted">Monday of week 1 · now ${fmtD(startMonday())}</div></div>
+      <input type="date" data-start value="${state.startISO}" style="width:160px;background:var(--ink2);border:1px solid var(--line);border-radius:9px;padding:9px;color:var(--brass);font-size:14px">
+    </div></div>
+    <div class="eyebrow">Recovery standards</div><div class="card flat">
+    ${RECOVERY.map(([a,b])=>`<div class="kvr"><b>${a}</b><span class="muted">${b}</span></div>`).join('')}</div>
+    <h2 class="sect">Your data</h2>
+    <div class="card">
+      <div class="tiny muted" style="margin-bottom:10px">Everything is saved on this device only. Back it up here, or move it to another phone.</div>
+      <div class="btnrow">
+        <button class="btn" data-act="export">Export backup</button>
+        <button class="btn" data-act="toggleimp">Import</button>
+      </div>
+      <div id="impwrap" style="display:none">
+        <textarea class="imp" id="impbox" placeholder="Paste exported backup here…"></textarea>
+        <div class="btnrow" style="margin-top:8px"><button class="btn" data-act="import">Load this data</button></div>
+      </div>
+      <div class="btnrow" style="margin-top:10px"><button class="btn danger" data-act="reset">Reset all progress</button></div>
+    </div>
+    <h2 class="sect">About</h2>
+    <div class="card flat tiny muted" style="line-height:1.6">
+      12-week Soviet-style strength &amp; conditioning programme for a 48-year-old grappler.
+      Loads calculate from your 1RM; tick off lifts and log weights as you train.
+      ${store.ok?'Saving is on.':'Saving is off in preview — open the file directly on your phone.'}
+      Train hard, never to failure. Not medical advice.
+    </div></div>`;
+  app().innerHTML=h; wire();
+}
+
+/* ================= events ================= */
+function wire(){
+  document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>go('session',{sid:b.dataset.open,dk:b.dataset.dk}));
+  document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>go('week'));
+  document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>{
+    const o=b.dataset.done;const cur=getLog(state.week,route.dk,o).done;setLog(state.week,route.dk,o,{done:!cur});renderSession();});
+  document.querySelectorAll('input[data-log]').forEach(inp=>inp.oninput=()=>{
+    setLog(state.week,route.dk,inp.dataset.log,{[inp.dataset.f]:inp.value});});
+  document.querySelectorAll('input[data-orm]').forEach(inp=>inp.oninput=()=>{
+    state.oneRM[inp.dataset.orm]=inp.value===''?'':Number(inp.value);save();
+    // live-update tables without losing focus: only re-render if not focused field's screen issue -> debounce light
+    clearTimeout(window._t);window._t=setTimeout(()=>{if(route.tab==='weights')softWeights();},250);});
+  document.querySelectorAll('input[data-tgt]').forEach(inp=>inp.oninput=()=>{state.targets[inp.dataset.tgt]=inp.value;save();});
+  document.querySelectorAll('[data-jump]').forEach(el=>el.onclick=()=>{state.week=Number(el.dataset.jwk);save();go('session',{sid:el.dataset.jump,dk:el.dataset.jdk});});
+  document.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>action(b.dataset.act));
+  document.querySelectorAll('[data-gotoweek]').forEach(b=>b.onclick=()=>{state.week=Number(b.dataset.gotoweek);save();go('week');});
+  const sd=document.querySelector('input[data-start]');
+  if(sd)sd.onchange=()=>{state.startISO=sd.value||DEFAULTS.startISO;state.week=currentWeek();save();render();};
+}
+function softWeights(){ // refresh only the working-weights table area
+  renderWeights();
+  const f=document.querySelector('input[data-orm]:focus');// focus already lost on rerender; acceptable
+}
+function action(a){
+  if(a==='export'){
+    const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);const el=document.createElement('a');
+    el.href=url;el.download='soviet-wrestling-progress.json';el.click();URL.revokeObjectURL(url);
+  } else if(a==='toggleimp'){const w=document.getElementById('impwrap');w.style.display=w.style.display==='none'?'block':'none';}
+  else if(a==='import'){
+    try{const o=JSON.parse(document.getElementById('impbox').value);
+      state=Object.assign(clone(DEFAULTS),o);save();go('progress');}
+    catch(e){alert('That doesn\u2019t look like a valid backup.');}
+  } else if(a==='reset'){
+    if(confirm('Erase all progress, logs and 1RMs on this device?')){state=clone(DEFAULTS);save();go('today');}
+  }
+}
+
+/* week strip + nav */
+document.getElementById('wprev').onclick=()=>{state.week=Math.max(1,state.week-1);save();render();};
+document.getElementById('wnext').onclick=()=>{state.week=Math.min(12,state.week+1);save();render();};
+document.querySelector('.wmid').onclick=()=>{state.week=currentWeek();save();render();};
+document.getElementById('nav').addEventListener('click',e=>{const b=e.target.closest('button[data-tab]');if(b)go(b.dataset.tab);});
+
+state.week=currentWeek();
+render();
+</script>
+
+
+</body></html>
